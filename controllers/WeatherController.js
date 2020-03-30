@@ -64,8 +64,11 @@ class WeatherController {
     async getCoordinates(req, res, next) {
         console.log("in route");
     try{
-        const latlon = req.query.latlon.split(',');
-        console.log(latlon);
+        //console.log(req.body,"------------");
+        //return false;
+        let latlon = req.body.latlon;
+        //console.log(latlon);
+        latlon = latlon.split(',');
         const lat = latlon[0];
         const lon = latlon[1];
         console.log(lat, lon);
@@ -79,10 +82,31 @@ class WeatherController {
 
         res.json(result2);
         } catch(err){
+            console.log(err);
             res.status(500).json({
                 error: err
             });
       }
+    }
+
+    async getWoeId(req, res, next){
+
+    let woe = await req.body.woeid;
+    console.log(woe);
+    if( !woe) {
+        let error = new Error();
+        error.message = 'Empty Woe Parameters';
+        throw error;
+    }
+    try {
+        let fetch =  await axios.get(weather + woe);
+        let result = {
+            data: fetch.data.consolidated_weather
+        }
+        res.json(result);
+    } catch (error) {
+      console.error(error)
+    }
     }
     
 }

@@ -6,8 +6,12 @@ const weatherController = new WeatherController();
 
 
 router.get('/weather',weatherController.getWeather.bind(weatherController));
-router.get('/weather/coordinates/:latlon',weatherController.getCoordinates.bind(weatherController));
-
+router.get('/weather/coordinates',weatherController.getCoordinates.bind(weatherController),function (req, res){
+	console.log("test");
+});
+router.get('/weather/get_woeid',weatherController.getWoeId.bind(weatherController),function (req, res){
+	console.log("test");
+});
 // router.get(
 //     '/api/films',
 //     filmController.index.bind(filmController));
